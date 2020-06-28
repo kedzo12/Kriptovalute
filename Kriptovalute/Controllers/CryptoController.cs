@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BitcoinLib.Services.Coins.Bitcoin;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using BitcoinLib.Services.Coins.Bitcoin;
 
 namespace kripto.Controllers
 {
@@ -12,9 +7,10 @@ namespace kripto.Controllers
     [Route("[controller]")]
     public class CryptoController : ControllerBase
     {
-
         BitcoinService bcs;
         public string txId = "c3f11d1708ac20eff9137d4eadd62dd99d71ce22dc51bc51d4e5b83958d9596d";
+        //public string txId = "883e8793c63bd947c31b14d61034647132d5324bb4a64ffc049e1abb8fcc2dd4";
+        //public string txId = "74a6902a64471b65e2e536cc58663eae8d26ce1a5262c39dd2528c703ade05c0";
 
         public CryptoController()
         {
@@ -25,8 +21,9 @@ namespace kripto.Controllers
         [HttpGet]
         public ActionResult<Crypto> Get()
         {
-            //var block = bcs.GetBlock(bcs.GetBestBlockHash(), true);
             var transaction = bcs.GetRawTransaction(txId, 1);
+            var blockInfo = bcs.GetBlockchainInfo();
+            var acc = bcs.GetWalletInfo();
             return new Crypto
             {
                 TransactionId = transaction.TxId,
@@ -37,6 +34,10 @@ namespace kripto.Controllers
                 TransactionHex = transaction.Hex,
                 TransactionLockTime = transaction.LockTime,
                 TransactionVersion = transaction.Version,
+                Chain = blockInfo.Chain,
+                BlockHash = blockInfo.BestBlockHash,
+                Blocks = blockInfo.Blocks,
+                Balance = acc.Balance
             };
         }
     }
