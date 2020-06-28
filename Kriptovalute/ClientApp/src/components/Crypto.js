@@ -13,9 +13,7 @@ export class Crypto extends Component {
         console.log(data);
         this.setState({ transaction: data });
     }
-  getTransaction() {
-      //getTransData();
-    }
+
     componentDidMount() {
         this.getTransData();
     }
@@ -37,7 +35,6 @@ export class Crypto extends Component {
             <p aria-live="polite">Transaction time: <strong>{this.state.transaction.transactionTime}</strong></p>
             <p aria-live="polite">Transaction version: <strong>{this.state.transaction.transactionVersion}</strong></p>
 
-            <button className="btn btn-primary" onClick={this.getTransaction}>Get Transaction</button>
       </div>
     );
   }
